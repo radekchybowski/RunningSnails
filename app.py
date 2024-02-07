@@ -10,7 +10,6 @@ class Game():
     colors = 'niebieski', 'żółty', 'fioletowy', 'zielony', 'czerwony'
 
     def __init__(self):
-        self.gametype = "hotseat"
         self.dices = Dices()
 
 
@@ -51,17 +50,6 @@ class Game():
 
     def endgame(self):
         print('koniec gry')
-
-    @app.route('/hotseat', methods=['POST', 'GET'])
-    def gameHotseat(self):
-        if request.method == 'POST':
-            if request.form.get('submit_button', False) == 'throwDice':
-                gra.dices.throwDices()
-            elif request.form.get('dice', False) != False:
-                dice = gra.dices.getDiceByColor(request.form.get('dice', False))
-                gra.moveSnail(dice.color, dice.value)
-
-        return render_template('hotseat.html', kostki=kostki, gra=gra)
 
 
 class Player():
@@ -125,10 +113,10 @@ class Dices():
         for dice in self.currentDices:
             dice.rzut()
 
-
+gra = Game()
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    gra = Game()
+    kostki = gra.dices
 
     if request.method == 'POST':
         if request.form.get('submit_button', False) == 'throwDice':
