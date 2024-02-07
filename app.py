@@ -4,25 +4,24 @@ import random, copy
 app = Flask(__name__)
 
 
-
 class Game():
     board = []
     colors = 'niebieski', 'żółty', 'fioletowy', 'zielony', 'czerwony'
 
     def __init__(self):
+        self.gametype = "hotseat"
         self.dices = Dices()
-
 
         for i in range(1, 20):
             self.board.append({'type': "", 'value': i, 'snails': []})
             if i == 1:
-                self.board[i-1]['type'] = 'start'
+                self.board[i - 1]['type'] = 'start'
                 for color in self.colors:
-                    self.board[i-1]['snails'].append(Snail(color))
+                    self.board[i - 1]['snails'].append(Snail(color))
             if i == 7 or i == 11:
-                self.board[i-1]['type'] = 'grzyb'
+                self.board[i - 1]['type'] = 'grzyb'
             if i == 19:
-                self.board[i-1]['type'] = 'meta'
+                self.board[i - 1]['type'] = 'meta'
 
     def moveSnail(self, color, position):
         for i, field in enumerate(self.board):
@@ -40,7 +39,7 @@ class Game():
                         x = 0
                     print('i: ', i, 'position: ', position)
                     if (len(self.board[x]['snails']) != 0) and self.board[x]['type'] != 'grzyb':
-                        self.board[x-1]['snails'] += self.board[x]['snails']
+                        self.board[x - 1]['snails'] += self.board[x]['snails']
                         self.board[x]['snails'] = []
 
                     self.board[x]['snails'].append(snail)
@@ -51,12 +50,14 @@ class Game():
     def endgame(self):
         print('koniec gry')
 
+    def gameHotseat(self):
+        pass
+
 
 class Player():
     def __init__(self, name):
         self.name = ""
         self.score = 0
-
 
 
 class Snail():
@@ -67,6 +68,7 @@ class Snail():
 
     def __repr__(self):
         return "Ślimak (%s)" % (self.color)
+
 
 class Dice():
     id
@@ -83,10 +85,12 @@ class Dice():
         self.value = random.choice(self.fields)
         return self.value
 
+
 class Dices():
     colors = 'niebieski', 'żółty', 'fioletowy', 'zielony', 'czerwony'
     allDices = []
     currentDices = []
+
     def __init__(self):
         self.currentDices = []
         for color in self.colors:
@@ -94,6 +98,7 @@ class Dices():
 
     def __iter__(self):
         return self.currentDices
+
     def __next__(self):
         return self.currentDices
 
@@ -108,14 +113,31 @@ class Dices():
             return
         self.currentDices.remove(self.getDiceByColor(color))
 
-
     def throwDices(self):
         for dice in self.currentDices:
             dice.rzut()
 
+
 gra = Game()
-@app.route('/', methods=['POST', 'GET'])
+
+
+@app.route('/')
 def index():
+    return render_template('index.html')
+
+
+@app.route('/hotseat_players', methods=['POST', 'GET'])
+def hotseatPlayers():
+    if request.method == 'POST':
+        if request.form.get('players', False) != False:
+            pass
+            return hotseat()
+
+
+    return render_template('hotseat_players.html')
+
+@app.route('/hotseat', methods=['POST', 'GET'])
+def hotseat():
     kostki = gra.dices
 
     if request.method == 'POST':
@@ -125,9 +147,7 @@ def index():
             dice = gra.dices.getDiceByColor(request.form.get('dice', False))
             gra.moveSnail(dice.color, dice.value)
 
-    return render_template('index.html', kostki=kostki, gra=gra)
-
-
+    return render_template('hotseat.html', kostki=kostki, gra=gra)
 
 
 if __name__ == '__main__':

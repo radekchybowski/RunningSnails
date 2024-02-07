@@ -5,6 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4e1a8c3b-c53e-4968-a768-dcf20ab10d35" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/templates/hotseat_players.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +55,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/radek/Documents/Coding/PyCharmProjects/IG-projekt",
+    "last_opened_file_path": "/Users/radek/Documents/Coding/PyCharmProjects/IG-projekt/templates",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -64,6 +67,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -104,7 +108,7 @@
       <option name="presentableId" value="Default" />
       <updated>1706964144596</updated>
       <workItem from="1706964152763" duration="833000" />
-      <workItem from="1706965046213" duration="28064000" />
+      <workItem from="1706965046213" duration="29692000" />
     </task>
     <servers />
   </component>

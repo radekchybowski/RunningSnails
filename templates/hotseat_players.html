@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Dupa</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Wpisz imiona graczy po przecinku:</h1>
+    <form action="/hotseat_players" method="post">
+        <input type="text" name="players">
+        <button type="submit" name="submit_button" value="online">Dodaj graczy</button>
+    </form>
+
+{% endblock %}
