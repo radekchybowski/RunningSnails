@@ -14,7 +14,7 @@
         </div>
     {% endfor %}
     <h1>Kostki</h1>
-    <form action="/" method="post">
+    <form action="/hotseat" method="post">
     {% for kostka in kostki.currentDices %}
         <button type="submit" name="dice" value="{{ kostka.color }}" class="dice {{ kostka.color }}">
             {{ kostka.value }}
