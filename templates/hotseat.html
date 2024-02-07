@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Dupa</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Plansza</h1>
+    {% for pole in gra.board %}
+        <div class="board-field">
+            {{ pole.value }} {{ pole.type }}
+            {% for snail in pole.snails %}
+                <img class="tux {{ snail.color }}" src="{{ url_for('static', filename='img/tux.svg') }}" alt="tux" style="">
+            {% endfor %}
+        </div>
+    {% endfor %}
+    <h1>Kostki</h1>
+    <form action="/" method="post">
+    {% for kostka in kostki.currentDices %}
+        <button type="submit" name="dice" value="{{ kostka.color }}" class="dice {{ kostka.color }}">
+            {{ kostka.value }}
+        </button>
+    {% endfor %}
+        <button type="submit" name="submit_button" value="throwDice">Losuj ponownie</button>
+    </form>
+{% endblock %}
