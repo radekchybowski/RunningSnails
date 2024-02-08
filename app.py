@@ -1,15 +1,34 @@
 from flask import Flask, render_template, request
-import random, copy
+import random, copy, itertools
 
 app = Flask(__name__)
 
+class SingletonMeta(type):
+    """
+    The Singleton class can be implemented in different ways in Python. Some
+    possible methods include: base class, decorator, metaclass. We will use the
+    metaclass because it is best suited for this purpose.
+    """
+
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        """
+        Possible changes to the value of the `__init__` argument do not affect
+        the returned instance.
+        """
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
 
 class Game():
-    board = []
-    colors = 'niebieski', 'żółty', 'fioletowy', 'zielony', 'czerwony'
-
     def __init__(self):
-        self.gametype = "hotseat"
+        self.instance = None
+        self.colors = 'niebieski', 'żółty', 'fioletowy', 'zielony', 'czerwony'
+        self.board = []
+        self.players = []
+        self.currentPlayer = Player('Tadek')
         self.dices = Dices()
 
         for i in range(1, 20):
@@ -27,24 +46,34 @@ class Game():
         for i, field in enumerate(self.board):
             for snail in field['snails']:
                 if snail.color == color:
+
                     if position == 'snail':
                         position = 2
                     else:
                         self.dices.removeDice(color)
+
                     x = i + position
+
                     if x >= 18:
                         x = 18
                         self.endgame()
+
                     if x < 0:
                         x = 0
-                    print('i: ', i, 'position: ', position)
+
                     if (len(self.board[x]['snails']) != 0) and self.board[x]['type'] != 'grzyb':
+                        self.currentPlayer.addPoints(len(self.board[x]['snails']))
                         self.board[x - 1]['snails'] += self.board[x]['snails']
                         self.board[x]['snails'] = []
+
+                    if self.board[x]['type'] == 'grzyb':
+                        self.currentPlayer.addPoints(1)
 
                     self.board[x]['snails'].append(snail)
                     self.board[i]['snails'].remove(snail)
                     self.dices.throwDices()
+                    # self.currentPlayer = self.nextPlayer()
+
                     return
 
     def endgame(self):
@@ -53,11 +82,25 @@ class Game():
     def gameHotseat(self):
         pass
 
+    def addPlayer(self, name, cpu=False):
+        self.players.append(Player(name))
+        self.currentPlayer = self.players[0]
+
+    def nextPlayer(self):
+        self.currentPlayer = self.players[self.players.index(self.currentPlayer)]
+
 
 class Player():
-    def __init__(self, name):
-        self.name = ""
-        self.score = 0
+    def __init__(self, name=""):
+        self.name = name
+        self.points = 0
+        self.snails = ('czerwony', 'zielony')
+
+    def __repr__(self):
+        return self.name
+
+    def addPoints(self, points):
+        self.points += points
 
 
 class Snail():
@@ -71,7 +114,6 @@ class Snail():
 
 
 class Dice():
-    id
     color = None
     value = None
     fields = 'snail', 1, 2, 3, 4, 5
@@ -120,7 +162,6 @@ class Dices():
 
 gra = Game()
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -130,11 +171,14 @@ def index():
 def hotseatPlayers():
     if request.method == 'POST':
         if request.form.get('players', False) != False:
-            pass
+            names = request.form['players'].split(',')
+            for name in names:
+                gra.addPlayer(name.strip())
+
             return hotseat()
 
-
     return render_template('hotseat_players.html')
+
 
 @app.route('/hotseat', methods=['POST', 'GET'])
 def hotseat():
@@ -143,7 +187,7 @@ def hotseat():
     if request.method == 'POST':
         if request.form.get('submit_button', False) == 'throwDice':
             gra.dices.throwDices()
-        elif request.form.get('dice', False) != False:
+        elif request.form.get('dice', False) == True:
             dice = gra.dices.getDiceByColor(request.form.get('dice', False))
             gra.moveSnail(dice.color, dice.value)
 

@@ -4,7 +4,8 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Plansza</h1>
+    <h1>Kolej gracza: {{ gra.currentPlayer.name }}</h1>
+    <p>{{ gra.players }}</p>
     {% for pole in gra.board %}
         <div class="board-field">
             {{ pole.value }} {{ pole.type }}
