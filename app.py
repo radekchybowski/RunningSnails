@@ -1,30 +1,32 @@
-from flask import Flask, render_template, request
-import random, copy, itertools
+from flask import Flask, render_template, request, redirect, session
+import random, copy, itertools, uuid
 
 app = Flask(__name__)
+app.secret_key = '1221'
 
-class SingletonMeta(type):
-    """
-    The Singleton class can be implemented in different ways in Python. Some
-    possible methods include: base class, decorator, metaclass. We will use the
-    metaclass because it is best suited for this purpose.
-    """
+games = {}
 
-    _instances = {}
-
-    def __call__(cls, *args, **kwargs):
-        """
-        Possible changes to the value of the `__init__` argument do not affect
-        the returned instance.
-        """
-        if cls not in cls._instances:
-            instance = super().__call__(*args, **kwargs)
-            cls._instances[cls] = instance
-        return cls._instances[cls]
+# class SingletonMeta(type):
+#     """
+#     The Singleton class can be implemented in different ways in Python. Some
+#     possible methods include: base class, decorator, metaclass. We will use the
+#     metaclass because it is best suited for this purpose.
+#     """
+#
+#     _instances = {}
+#
+#     def __call__(cls, *args, **kwargs):
+#         """
+#         Possible changes to the value of the `__init__` argument do not affect
+#         the returned instance.
+#         """
+#         if cls not in cls._instances:
+#             instance = super().__call__(*args, **kwargs)
+#             cls._instances[cls] = instance
+#         return cls._instances[cls]
 
 class Game():
     def __init__(self):
-        self.instance = None
         self.colors = 'niebieski', 'żółty', 'fioletowy', 'zielony', 'czerwony'
         self.board = []
         self.players = []
@@ -159,29 +161,34 @@ class Dices():
         for dice in self.currentDices:
             dice.rzut()
 
-
-gra = Game()
+def check():
+    if 'key' not in session or 'games' not in globals():
+        return True
+    return False
 
 @app.route('/')
 def index():
+    if 'key' not in session:
+        session['key'] = uuid.uuid4()
     return render_template('index.html')
 
 
 @app.route('/hotseat_players', methods=['POST', 'GET'])
 def hotseatPlayers():
     if request.method == 'POST':
-        if request.form.get('players', False) != False:
-            names = request.form['players'].split(',')
-            for name in names:
-                gra.addPlayer(name.strip())
+        games[session['key']] = Game()
+        names = request.form['players'].split(',')
+        for name in names:
+            games[session['key']].addPlayer(name.strip())
 
-            return hotseat()
+        return redirect('/hotseat')
 
     return render_template('hotseat_players.html')
 
 
 @app.route('/hotseat', methods=['POST', 'GET'])
 def hotseat():
+    gra = games[session['key']]
     kostki = gra.dices
 
     if request.method == 'POST':
