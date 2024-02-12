@@ -4,16 +4,22 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Kolej gracza: {{ gra.currentPlayer.name }}</h1>
-    <p>{{ gra.players }}</p>
+    <div class="row">
+        <h1>Kolej gracza: {{ gra.currentPlayer.name }}</h1>
+        {% for player in gra.players %}
+            {{ player.name }}: {{ player.points }}
+        {% endfor %}
+    </div>
+    <div class="row">
     {% for pole in gra.board %}
-        <div class="board-field">
-            {{ pole.value }} {{ pole.type }}
+        <div class="board-field bg-image{% if pole.type == "grzyb" %} mushroom {% endif %}">
+            {{ pole.value }}
             {% for snail in pole.snails %}
                 <img class="tux {{ snail.color }}" src="{{ url_for('static', filename='img/tux.svg') }}" alt="tux" style="">
             {% endfor %}
         </div>
     {% endfor %}
+    </div>
     <h1>Kostki</h1>
     <form action="/hotseat" method="post">
     {% for kostka in kostki.currentDices %}
@@ -21,6 +27,5 @@
             {{ kostka.value }}
         </button>
     {% endfor %}
-        <button type="submit" name="submit_button" value="throwDice">Losuj ponownie</button>
     </form>
 {% endblock %}

@@ -6,6 +6,7 @@ app.secret_key = '1221'
 
 games = {}
 
+
 # class SingletonMeta(type):
 #     """
 #     The Singleton class can be implemented in different ways in Python. Some
@@ -25,12 +26,13 @@ games = {}
 #             cls._instances[cls] = instance
 #         return cls._instances[cls]
 
-class Game():
+class Game:
     def __init__(self):
         self.colors = 'niebieski', 'żółty', 'fioletowy', 'zielony', 'czerwony'
         self.board = []
         self.players = []
-        self.currentPlayer = Player('Tadek')
+        self.currentPlayer = None
+        self.winner = None
         self.dices = Dices()
 
         for i in range(1, 20):
@@ -58,7 +60,6 @@ class Game():
 
                     if x >= 18:
                         x = 18
-                        self.endgame()
 
                     if x < 0:
                         x = 0
@@ -73,30 +74,62 @@ class Game():
 
                     self.board[x]['snails'].append(snail)
                     self.board[i]['snails'].remove(snail)
+
+                    if x == 18:
+                        self.endgame()
+
                     self.dices.throwDices()
-                    # self.currentPlayer = self.nextPlayer()
+                    self.nextPlayer()
 
                     return
 
     def endgame(self):
-        print('koniec gry')
+        # adding points for players snails
+        first = self.board[18]['snails']
+        for i in range(17, -1, -1):
+            print(i)
+            if len(self.board[i]['snails']) != 0:
+                second = self.board[i]['snails']
+                break
+        for i in range(0, 18):
+            if len(self.board[i]['snails']) != 0:
+                last = self.board[i]['snails']
+                break
 
-    def gameHotseat(self):
-        pass
+        for snail in first:
+            for player in self.players:
+                if snail.color in player.snails:
+                    player.addPoints(5)
+        for snail in second:
+            for player in self.players:
+                if snail.color in player.snails:
+                    player.addPoints(2)
+        for snail in last:
+            for player in self.players:
+                if snail.color in player.snails:
+                    player.addPoints(3)
+
+        # calculating winner
+        score = (max([x.points for x in self.players]))
+        for player in self.players:
+            if player.points == score:
+                self.winner = player.name
 
     def addPlayer(self, name, cpu=False):
         self.players.append(Player(name))
         self.currentPlayer = self.players[0]
 
     def nextPlayer(self):
-        self.currentPlayer = self.players[self.players.index(self.currentPlayer)]
+        self.currentPlayer = self.players[self.players.index(self.currentPlayer) - 1]
 
 
-class Player():
+class Player:
     def __init__(self, name=""):
+        self._pairs = (('czerwony', 'żółty'), ('niebieski', 'czerwony'), ('żółty', 'zielony'), ('zielony', 'fioletowy'),
+                       ('fioletowy', 'niebieski'))
         self.name = name
         self.points = 0
-        self.snails = ('czerwony', 'zielony')
+        self.snails = random.sample(self._pairs, 1)
 
     def __repr__(self):
         return self.name
@@ -105,7 +138,7 @@ class Player():
         self.points += points
 
 
-class Snail():
+class Snail:
     def __init__(self, color):
         self.id = random.choice(range(0, 100))
         self.color = color
@@ -115,7 +148,7 @@ class Snail():
         return "Ślimak (%s)" % (self.color)
 
 
-class Dice():
+class Dice:
     color = None
     value = None
     fields = 'snail', 1, 2, 3, 4, 5
@@ -130,7 +163,7 @@ class Dice():
         return self.value
 
 
-class Dices():
+class Dices:
     colors = 'niebieski', 'żółty', 'fioletowy', 'zielony', 'czerwony'
     allDices = []
     currentDices = []
@@ -161,10 +194,12 @@ class Dices():
         for dice in self.currentDices:
             dice.rzut()
 
+
 def check():
     if 'key' not in session or 'games' not in globals():
         return True
     return False
+
 
 @app.route('/')
 def index():
@@ -188,13 +223,12 @@ def hotseatPlayers():
 
 @app.route('/hotseat', methods=['POST', 'GET'])
 def hotseat():
+    if check() or session['key'] not in games: return redirect('/')
     gra = games[session['key']]
     kostki = gra.dices
 
     if request.method == 'POST':
-        if request.form.get('submit_button', False) == 'throwDice':
-            gra.dices.throwDices()
-        elif request.form.get('dice', False) == True:
+        if isinstance(request.form['dice'], str):
             dice = gra.dices.getDiceByColor(request.form.get('dice', False))
             gra.moveSnail(dice.color, dice.value)
 
