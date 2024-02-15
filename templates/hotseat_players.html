@@ -4,10 +4,18 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Wpisz imiona graczy po przecinku:</h1>
-    <form action="/hotseat_players" method="post">
-        <input type="text" name="players">
-        <button type="submit" name="submit_button" value="online">Dodaj graczy</button>
-    </form>
+    <div class="row">
+        <div class="col-4 mx-auto">
+            <h1>Pędzące ślimaki</h1>
+            <form action="/hotseat_players" method="post">
+                <div class="form-group">
+                    <label for="players">Wpisz imiona graczy po przecinku:</label>
+                    <input type="text" class="form-control my-2" id="players" name="players" aria-describedby="emailHelp" placeholder="Radek, Ania...">
+                    <small id="emailHelp" class="form-text text-muted">Możesz wpisać maksymalnie 5 graczy.</small>
+                </div>
+                <button class="btn btn-success m-2" type="submit" name="submit_button" value="online">Dodaj graczy</button>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

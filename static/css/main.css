@@ -1,8 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Pangolin&display=swap');
+
+
 body {
     margin: 0;
-    font-family: sans-serif;
-    background-color: #5e5b5b;
-    color: #fefeff;
+    font-family: "Pangolin", cursive;
+    font-weight: 400;
+    font-style: normal;
+    background-image: url("../img/landscape.jpg");
+    background-color: #e7e4e4;
+    color: #333333;
+}
+
+.niebieski {
+    --main-color: #267aad;
+}
+
+.żółty {
+    --main-color: #cbb850;
+}
+
+.fioletowy {
+    --main-color: #9251c5;
+}
+
+.zielony {
+    --main-color: #2fa654;
+}
+
+.czerwony {
+    --main-color: #c45151;
+}
+
+h1 {
+    margin: 40px;
+    margin-top: 30px;
 }
 
 .dice {
@@ -12,12 +43,39 @@ body {
     height: 104px;
     border-radius: 10%;
     text-align: center;
-    font-size: 25px;
+    font-size: 40px;
+    background-color: var(--main-color);
+    border: none;
+    color: white;
+    box-shadow: 10px 14px 37px -14px rgba(66, 68, 90, 1);
+    -webkit-box-shadow: 10px 14px 37px -14px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 10px 14px 37px -14px rgba(66, 68, 90, 1);
+}
+
+.dice:hover {
+    transform: scale(1.1) rotate(2deg);
+    -webkit-transform: scale(1.1) rotate(2deg);
+    -moz-transform: scale(1.1) rotate(2deg);
+    -ms-transform: scale(1.1) rotate(2deg);
+    -o-transform: scale(1.1) rotate(2deg);
+    transition: transform 0.2s ease;
+    -webkit-transition: transform 0.2s ease;
+    -moz-transition: transform 0.2s ease;
+    -ms-transition: transform 0.2s ease;
+    -o-transition: transform 0.2s ease;
+}
+
+.board {
+    display: inline-block;
+    padding: 15px;
+    background-color: #464343;
+    border-radius: 30px;
+    box-shadow: #464343;
 }
 
 .board-field {
     display: inline-block;
-    z-index: -2;
+    z-index: 3;
     width: 120px;
     height: 120px;
     background-image: url("../img/glacier.svg");
@@ -26,39 +84,62 @@ body {
     padding: 4px;
     color: #000000;
     font-size: 20px;
-    vertical-align: text-bottom;
+    text-align: center;
 }
+
+/*.field-number {*/
+/*    position: absolute;*/
+/*    bottom: 0;*/
+/*    text-align: center;*/
+/*    display: inline-block;*/
+/*}*/
 
 .mushroom {
     background-image: url("../img/mountain.svg");
 }
-.niebieski {
-    background-color: #d1e9f6;
+
+.points {
+    text-align: center;
 }
 
-.żółty {
-    background-color: #f3e4aa;
+.card {
+    width: 400px;
+    padding: 20px;
 }
 
-.fioletowy {
-    background-color: #d387ff;
+.btn-rules {
+    margin: 20px;
+    width: 400px;
+    display: block;
 }
-
-.zielony {
-    background-color: #a1ffbf;
-}
-
-.czerwony {
-    background-color: #ff7979;
-}
-
-.tux {
-    width: 60px;
-    height: 80px;
+svg {
+    width: 110px;
+    height: 110px;
     padding: -10px;
-    margin: -15px;
+    margin: -35px;
     z-index: 10;
 }
 
+path {
+    fill: var(--main-color);
+}
 
+.tux {
+    -webkit-box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);
+    box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);
+}
 
+.points-div {
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 10px;
+    display: inline-block;
+    background-color: #ffffff;
+
+}
+
+.snail-card {
+    width: 250px;
+    height: 350px;
+}

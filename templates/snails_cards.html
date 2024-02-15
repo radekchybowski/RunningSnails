@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Dupa</title>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12">
+            <h1>Zobacz swoje ślimaki:</h1>
+            {% for player in gra.players %}
+                <button class="btn btn-outline-dark m-3" onclick="toggleDiv{{ player }}()">{{ player }}</button>
+
+                <div class="col-12">
+                    <div id="{{ player }}" class="card snail-card mx-auto" style="display: none;">
+                        {% for snail in player.snails %}
+                            <p>{{ snail }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            {% endfor %}
+            <a class="d-inline-block btn btn-success btn-lg m-5" href="/hotseat">Przejdź do gry</a>
+        </div>
+    </div>
+    {% for player in gra.players %}
+    <script>
+        function toggleDiv{{ player }}() {
+            let div = document.getElementById("{{player}}");
+            if (div.style.display === "none") {
+                div.style.display = "block";
+            } else {
+                div.style.display = "none";
+            }
+        }
+    </script>
+    {% endfor %}
+{% endblock %}

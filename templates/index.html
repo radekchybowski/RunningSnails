@@ -1,11 +1,40 @@
 {% extends 'base.html' %}
 {% block head %}
-<title>Dupa</title>
+<title>Pędzące Ślimaki - gra</title>
 {% endblock %}
 
 {% block body %}
-    <h1>Wybierz typ gry</h1>
-        <button><a href="/hotseat_players">Gorące krzesło</a></button>
-        <button type="submit" name="submit_button" value="online">Online</button>
+    <div class="row text-center">
+        <div class="col-12">
+            <h1>Pędzące <s>ślimaki</s> Pingwiny</h1>
+        </div>
+        <div class="col-12">
+            <div class="d-grid gap-3 card mx-auto">
+                <h2>Wybierz tryb gry</h2>
+                <a class="btn btn-primary btn-lg" href="/hotseat_players">Gorące krzesło</a>
+                <a class="btn btn-success btn-lg" href="/hotseat_players">Online</a>
+            </div>
+        </div>
+        <div class="col-12">
+            <button class="btn-rules btn btn-secondary mx-auto" onclick="toggleDiv()">Zasady gry</button>
+        </div>
+        <div id="rules" class="col-12" style="display: none;">
+            <div class="card mx-auto">
+                <h2>Zasady gry</h2>
+                <p>Celem gry jest dupa chuj</p>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function toggleDiv() {
+        let div = document.getElementById("rules");
+        if (div.style.display === "none") {
+            div.style.display = "block";
+        } else {
+            div.style.display = "none";
+        }
+    }
+</script>
 
 {% endblock %}

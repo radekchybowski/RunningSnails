@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, flash, url_for
 import random, copy, itertools, uuid
 
 app = Flask(__name__)
@@ -29,6 +29,8 @@ games = {}
 class Game:
     def __init__(self):
         self.colors = 'niebieski', 'żółty', 'fioletowy', 'zielony', 'czerwony'
+        self.pairs = [['czerwony', 'żółty'], ['niebieski', 'czerwony'], ['żółty', 'zielony'], ['zielony', 'fioletowy'], [
+            'fioletowy', 'niebieski']]
         self.board = []
         self.players = []
         self.currentPlayer = None
@@ -115,8 +117,11 @@ class Game:
             if player.points == score:
                 self.winner = player.name
 
+        return
+
     def addPlayer(self, name, cpu=False):
-        self.players.append(Player(name))
+        snails = self.pairs.pop(random.randint(0, len(self.pairs)-1))
+        self.players.append(Player(name, snails))
         self.currentPlayer = self.players[0]
 
     def nextPlayer(self):
@@ -124,12 +129,10 @@ class Game:
 
 
 class Player:
-    def __init__(self, name=""):
-        self._pairs = (('czerwony', 'żółty'), ('niebieski', 'czerwony'), ('żółty', 'zielony'), ('zielony', 'fioletowy'),
-                       ('fioletowy', 'niebieski'))
+    def __init__(self, name, snails):
         self.name = name
         self.points = 0
-        self.snails = random.sample(self._pairs, 1)
+        self.snails = snails
 
     def __repr__(self):
         return self.name
@@ -210,15 +213,31 @@ def index():
 
 @app.route('/hotseat_players', methods=['POST', 'GET'])
 def hotseatPlayers():
+    if check(): return redirect('/')
     if request.method == 'POST':
-        games[session['key']] = Game()
+        game = games[session['key']] = Game()
         names = request.form['players'].split(',')
+        if len(names) > 5 or len(names[0]) == 0:
+            flash('Liczba graczy musi mieścić się w zakresie 1-5!', 'warning')
+            return redirect(url_for('hotseatPlayers'))
         for name in names:
-            games[session['key']].addPlayer(name.strip())
+            game.addPlayer(name.strip())
 
-        return redirect('/hotseat')
+        return redirect('/snails_cards')
 
     return render_template('hotseat_players.html')
+
+@app.route('/snails_cards')
+def snailCards():
+    if check() or session['key'] not in games: return redirect('/')
+    gra = games[session['key']]
+    return render_template('snails_cards.html', gra=gra)
+
+@app.route('/endgame')
+def endgame():
+    if check() or session['key'] not in games: return redirect('/')
+    gra = games[session['key']]
+    return render_template('endgame.html', gra=gra)
 
 
 @app.route('/hotseat', methods=['POST', 'GET'])
@@ -226,6 +245,8 @@ def hotseat():
     if check() or session['key'] not in games: return redirect('/')
     gra = games[session['key']]
     kostki = gra.dices
+    if gra.winner:
+        return redirect('/endgame')
 
     if request.method == 'POST':
         if isinstance(request.form['dice'], str):
