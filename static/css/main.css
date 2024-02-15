@@ -67,10 +67,13 @@ h1 {
 
 .board {
     display: inline-block;
-    padding: 15px;
+    padding: 10px 25px;
+    width: 937px;
     background-color: #464343;
     border-radius: 30px;
-    box-shadow: #464343;
+    -webkit-box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);
+    box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);
 }
 
 .board-field {
@@ -87,12 +90,10 @@ h1 {
     text-align: center;
 }
 
-/*.field-number {*/
-/*    position: absolute;*/
-/*    bottom: 0;*/
-/*    text-align: center;*/
-/*    display: inline-block;*/
-/*}*/
+.field-number {
+    margin-top: auto;
+    text-align: center;
+}
 
 .mushroom {
     background-image: url("../img/mountain.svg");
@@ -113,21 +114,22 @@ h1 {
     display: block;
 }
 svg {
-    width: 110px;
-    height: 110px;
+    width: 90px;
+    height: 90px;
     padding: -10px;
     margin: -35px;
     z-index: 10;
 }
 
-path {
-    fill: var(--main-color);
-}
+/*path {*/
+/*    fill: var(--main-color);*/
+/*}*/
 
 .tux {
-    -webkit-box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);
-    -moz-box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);
-    box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);
+    /*-webkit-box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);*/
+    /*-moz-box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);*/
+    /*box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);*/
+    fill: var(--main-color);
 }
 
 .points-div {

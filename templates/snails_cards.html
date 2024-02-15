@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block head %}
-<title>Dupa</title>
+<title>Pędzące Ślimaki - kolory</title>
 {% endblock %}
 
 {% block body %}
     <div class="row">
         <div class="col-12">
-            <h1>Zobacz swoje ślimaki:</h1>
+            <h1>Zobacz kolory swoich pingwinów:</h1>
             {% for player in gra.players %}
                 <button class="btn btn-outline-dark m-3" onclick="toggleDiv{{ player }}()">{{ player }}</button>
 

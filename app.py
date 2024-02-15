@@ -5,6 +5,7 @@ app = Flask(__name__)
 app.secret_key = '1221'
 
 games = {}
+gameCodes = []
 
 
 # class SingletonMeta(type):
@@ -254,6 +255,21 @@ def hotseat():
             gra.moveSnail(dice.color, dice.value)
 
     return render_template('hotseat.html', kostki=kostki, gra=gra)
+
+@app.route('/new_online', methods=['POST', 'GET'])
+def new_online():
+    if check(): return redirect('/')
+    if request.method == 'POST':
+        call = request.form.get('submit_button', False)
+        if call == 'new-room':
+            gameCode = random.choice([x for x in range(9999) if x not in gameCodes])
+            session['key'] = gameCode
+            print(session['key'])
+        if call == 'join-room':
+            session['key'] = request.form.get('game-code', False)
+            print(call)
+
+    return render_template('new_online.html')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Pędzące Ślimaki - online</title>
+{% endblock %}
+
+{% block body %}
+    <div class="row text-center">
+        <div class="col-12">
+            <h1>Gra online</h1>
+            <form action="{{ url_for('new_online') }}" method="POST">
+            <div class="d-grid gap-3 card mx-auto">
+                <h2>Wybierz opcję</h2>
+                <div class="form-group">
+                    <label for="players">Wpisz kod pokoju:</label>
+                    <input type="text" class="form-control my-2 text-center" id="game-code" name="game-code" placeholder="1234" minlength="4" maxlength="4">
+                    <small id="emailHelp" class="form-text text-muted">Kod powinien mieć 4 cyfry</small>
+                </div>
+                <button class="btn btn-lg btn-success" type="submit" name="submit_button" value="join-room">Dołącz do gry</button>
+                <button class="btn btn-lg btn-primary" type="submit" name="submit_button" value="new-room">Utwórz nowy pokój</button>
+            </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
