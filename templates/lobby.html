@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block head %}
+    <meta http-equiv="refresh" content="4">
+    <title>Pędzące Ślimaki - lobby</title>
+{% endblock %}
+
+{% block body %}
+    <div class="row text-center">
+        {% include 'components/_logo.html' %}
+        <div class="col-12">
+            <div class="d-grid gap-3 card mx-auto">
+                {{ game_code }}
+                <h2>Oczekiwanie na graczy</h2>
+                {% for player in players %}
+                    {{ player }},
+                {% endfor %}
+                <a class="btn btn-lg btn-primary" href="{{ url_for('lobby') }}">Odśwież</a>
+                <a class="btn btn-lg btn-primary" href="{{ url_for('start_online') }}">Rozpocznij grę</a>
+                <a class="btn btn-secondary m-3" href="/">Powrót do menu</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

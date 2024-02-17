@@ -5,21 +5,22 @@
 
 {% block body %}
     <div class="row">
+        {% include 'components/_logo.html' %}
         <div class="col-12">
-            <h1>Zobacz kolory swoich pingwinów:</h1>
-            {% for player in gra.players %}
-                <button class="btn btn-outline-dark m-3" onclick="toggleDiv{{ player }}()">{{ player }}</button>
-
-                <div class="col-12">
-                    <div id="{{ player }}" class="card snail-card mx-auto" style="display: none;">
-                        {% for snail in player.snails %}
-                            <p>{{ snail }}</p>
-                        {% endfor %}
+            <div class="d-grid gap-3 card mx-auto">
+                <h2>Zobacz kolory swoich pingwinów:</h2>
+                {% for player in gra.players %}
+                    <button class="btn btn-outline-dark" onclick="toggleDiv{{ player }}()">{{ player }}</button>
+                    <div class="col-12">
+                        <div id="{{ player }}" class="card snail-card mx-auto" style="display: none;">
+                            {% for snail in player.snails %}
+                                <p>{{ snail }}</p>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
-
-            {% endfor %}
-            <a class="d-inline-block btn btn-success btn-lg m-5" href="/hotseat">Przejdź do gry</a>
+                {% endfor %}
+            </div>
+            <a class="d-inline-block btn btn-success btn-lg m-5 shadow" href="/hotseat">Przejdź do gry</a>
         </div>
     </div>
     {% for player in gra.players %}

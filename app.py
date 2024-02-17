@@ -7,26 +7,6 @@ app.secret_key = '1221'
 games = {}
 gameCodes = []
 
-
-# class SingletonMeta(type):
-#     """
-#     The Singleton class can be implemented in different ways in Python. Some
-#     possible methods include: base class, decorator, metaclass. We will use the
-#     metaclass because it is best suited for this purpose.
-#     """
-#
-#     _instances = {}
-#
-#     def __call__(cls, *args, **kwargs):
-#         """
-#         Possible changes to the value of the `__init__` argument do not affect
-#         the returned instance.
-#         """
-#         if cls not in cls._instances:
-#             instance = super().__call__(*args, **kwargs)
-#             cls._instances[cls] = instance
-#         return cls._instances[cls]
-
 class Game:
     def __init__(self):
         self.colors = 'niebieski', 'żółty', 'fioletowy', 'zielony', 'czerwony'
@@ -234,12 +214,6 @@ def snailCards():
     gra = games[session['key']]
     return render_template('snails_cards.html', gra=gra)
 
-@app.route('/endgame')
-def endgame():
-    if check() or session['key'] not in games: return redirect('/')
-    gra = games[session['key']]
-    return render_template('endgame.html', gra=gra)
-
 
 @app.route('/hotseat', methods=['POST', 'GET'])
 def hotseat():
@@ -247,30 +221,75 @@ def hotseat():
     gra = games[session['key']]
     kostki = gra.dices
     if gra.winner:
-        return redirect('/endgame')
+        render_template('endgame.html', gra=gra)
 
     if request.method == 'POST':
         if isinstance(request.form['dice'], str):
             dice = gra.dices.getDiceByColor(request.form.get('dice', False))
             gra.moveSnail(dice.color, dice.value)
 
-    return render_template('hotseat.html', kostki=kostki, gra=gra)
+    return render_template('game.html', kostki=kostki, gra=gra)
 
 @app.route('/new_online', methods=['POST', 'GET'])
 def new_online():
     if check(): return redirect('/')
+
     if request.method == 'POST':
         call = request.form.get('submit_button', False)
+        name = request.form.get('player-name', False)
+        if name is None or name == "":
+            flash('Wpisz proszę swoje imię.')
+            return render_template('new_online.html')
+        name = name.strip()
+        session['player'] = name
         if call == 'new-room':
-            gameCode = random.choice([x for x in range(9999) if x not in gameCodes])
-            session['key'] = gameCode
-            print(session['key'])
+            game_code = random.choice([x for x in range(9999) if x not in gameCodes])
+            session['online_game'] = str(game_code)
+            games[session['online_game']] = [name]
         if call == 'join-room':
-            session['key'] = request.form.get('game-code', False)
-            print(call)
+            session['online_game'] = str(request.form.get('game-code', False))
+            if session['online_game'] not in games:
+                flash('Nie znaleziono pokoju o takim kodzie, wpisz kod ponownie lub stwórz nowy pokój.')
+                return render_template('new_online.html')
+            games[session['online_game']].append(name)
+        return redirect('lobby')
 
     return render_template('new_online.html')
 
+@app.route('/lobby', methods=['POST', 'GET'])
+def lobby():
+    players = games[session['online_game']]
+    if isinstance(players, Game):
+        return redirect(url_for('online'))
+    game_code = session['online_game']
+    return render_template('lobby.html', players=players, game_code=game_code)
+
+@app.route('/start_online')
+def start_online():
+    if not isinstance(games[session['online_game']], Game):
+        players = copy.deepcopy(games[session['online_game']])
+        game = games[session['online_game']] = Game()
+        for player in players:
+            game.addPlayer(player)
+
+    return redirect('online')
+
+@app.route('/online', methods=['POST', 'GET'])
+def online():
+    if check() or session['online_game'] not in games: return redirect('/')
+    game = games[session['online_game']]
+    me = session['player']
+    kostki = game.dices
+    if game.winner:
+        return render_template('endgame.html', gra=game)
+
+    if me == game.currentPlayer.name:
+        if request.method == 'POST':
+            if isinstance(request.form['dice'], str):
+                dice = game.dices.getDiceByColor(request.form.get('dice', False))
+                game.moveSnail(dice.color, dice.value)
+
+    return render_template('game.html', kostki=kostki, gra=game)
 
 if __name__ == '__main__':
     app.run(debug=True)

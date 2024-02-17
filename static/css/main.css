@@ -31,6 +31,14 @@ body {
     --main-color: #c45151;
 }
 
+.logo-title h1 {
+    /*-webkit-transform:  rotate(-3deg);*/
+    /*-moz-transform:  rotate(356deg);*/
+    /*-ms-transform:  rotate(356deg);*/
+    /*-o-transform:  rotate(356deg);*/
+    transform:  rotate(-2deg);
+}
+
 h1 {
     margin: 40px;
     margin-top: 30px;

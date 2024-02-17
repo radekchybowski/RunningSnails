@@ -5,20 +5,26 @@
 
 {% block body %}
     <div class="row text-center">
+        {% include 'components/_logo.html' %}
         <div class="col-12">
-            <h1>Gra online</h1>
             <form action="{{ url_for('new_online') }}" method="POST">
             <div class="d-grid gap-3 card mx-auto">
-                <h2>Wybierz opcję</h2>
+                <h2>Gra online</h2>
                 <div class="form-group">
-                    <label for="players">Wpisz kod pokoju:</label>
+                    <label for="player-name">Wpisz swoje imię:</label>
+                    <input type="text" class="form-control my-2 text-center" id="player-name" name="player-name" placeholder="Radek">
+                </div>
+                <button class="btn btn-lg btn-primary" type="submit" name="submit_button" value="new-room">Utwórz nowy pokój</button>
+                <p>lub</p>
+                <div class="form-group">
+                    <label for="game-code">Wpisz kod pokoju:</label>
                     <input type="text" class="form-control my-2 text-center" id="game-code" name="game-code" placeholder="1234" minlength="4" maxlength="4">
                     <small id="emailHelp" class="form-text text-muted">Kod powinien mieć 4 cyfry</small>
                 </div>
                 <button class="btn btn-lg btn-success" type="submit" name="submit_button" value="join-room">Dołącz do gry</button>
-                <button class="btn btn-lg btn-primary" type="submit" name="submit_button" value="new-room">Utwórz nowy pokój</button>
             </div>
             </form>
+            <a class="btn btn-secondary m-3" href="/">Powrót do menu</a>
         </div>
     </div>
 

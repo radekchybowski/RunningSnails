@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block head %}
-<title>Pędzące Ślimaki - hotseat</title>
+    {% if url_for(request.endpoint) == '/online' %}
+        <meta http-equiv="refresh" content="4">
+    {% endif %}
+    <title>Pędzące Ślimaki - gra</title>
 {% endblock %}
 
 {% block body %}
@@ -156,7 +159,7 @@
     <div class="row">
         <div class="col-12 my-3">
             <h3>Wybierz, kostkę którą chcesz zagrać</h3>
-            <form action="/hotseat" method="post">
+            <form action="{{ url_for(request.endpoint) }}" method="post">
             {% for kostka in kostki.currentDices %}
                 <button type="submit" name="dice" value="{{ kostka.color }}" class="dice {{ kostka.color }}">
                     {% if kostka.value == "snail" %}
