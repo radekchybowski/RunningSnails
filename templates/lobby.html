@@ -9,13 +9,19 @@
         {% include 'components/_logo.html' %}
         <div class="col-12">
             <div class="d-grid gap-3 card mx-auto">
-                {{ game_code }}
                 <h2>Oczekiwanie na graczy</h2>
-                {% for player in players %}
-                    {{ player }},
-                {% endfor %}
-                <a class="btn btn-lg btn-primary" href="{{ url_for('lobby') }}">Odśwież</a>
-                <a class="btn btn-lg btn-primary" href="{{ url_for('start_online') }}">Rozpocznij grę</a>
+                <div>
+                    <h4>Kod pokoju</h4>
+                    <div class="m-0" style="font-size: 50px; margin: 0;"><b>{{ game_code }}</b></div>
+                </div>
+                <div class="">
+                    <h4 class="mb-0">Gracze</h4>
+                    {% for player in players %}
+                        <div class="btn btn-light btn-lg disabled">{{ player }}</div>
+                    {% endfor %}
+                </div>
+                <a class="btn btn-primary" href="{{ url_for('lobby') }}">Odśwież</a>
+                <a class="btn btn-lg btn-success" href="{{ url_for('start_online') }}">Rozpocznij grę</a>
                 <a class="btn btn-secondary m-3" href="/">Powrót do menu</a>
             </div>
         </div>

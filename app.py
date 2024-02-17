@@ -75,7 +75,7 @@ def new_online():
         name = name.strip()
         session['player'] = name
         if call == 'new-room':
-            game_code = random.choice([x for x in range(9999) if x not in gameCodes])
+            game_code = random.choice([x for x in range(1000, 10000) if x not in gameCodes])
             session['online_game'] = str(game_code)
             games[session['online_game']] = [name]
         if call == 'join-room':
@@ -127,4 +127,4 @@ def online():
     return render_template('game.html', kostki=kostki, gra=game, player_name=me)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=12127, debug=True)
