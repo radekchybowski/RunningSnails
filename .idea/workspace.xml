@@ -5,17 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4e1a8c3b-c53e-4968-a768-dcf20ab10d35" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/components/_logo.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/lobby.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/online.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/hotseat.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/game.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/hotseat_players.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/hotseat_players.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/new_online.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/new_online.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/snails_cards.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/snails_cards.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/game.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/game.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +110,7 @@
       <option name="presentableId" value="Default" />
       <updated>1706964144596</updated>
       <workItem from="1706964152763" duration="833000" />
-      <workItem from="1706965046213" duration="98177000" />
+      <workItem from="1706965046213" duration="98727000" />
     </task>
     <servers />
   </component>

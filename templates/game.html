@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block head %}
     {% if url_for(request.endpoint) == '/online' %}
-        <meta http-equiv="refresh" content="4">
+        <meta http-equiv="refresh" content="3">
     {% endif %}
     <title>Pędzące Ślimaki - gra</title>
 {% endblock %}
@@ -174,7 +174,7 @@
         <div class="col-12 points">
             <h3>Punktacja</h3>
             {% for player in gra.players %}
-                <div class="points-div btn btn-light p-3">
+                <div class="points-div btn btn-light disabled p-3">
                     <b>{{ player.name }}: </b>{{ player.points }} pkt
                 </div>
             {% endfor %}

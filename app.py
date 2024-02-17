@@ -251,6 +251,9 @@ def new_online():
             if session['online_game'] not in games:
                 flash('Nie znaleziono pokoju o takim kodzie, wpisz kod ponownie lub stwórz nowy pokój.')
                 return render_template('new_online.html')
+            if name in games[session['online_game']]:
+                flash('Ta nazwa jest już zajęta przez innego gracza w tym pokoju, wybierz inną.')
+                return render_template('new_online.html')
             games[session['online_game']].append(name)
         return redirect('lobby')
 
