@@ -57,7 +57,7 @@ def hotseat():
 
     if request.method == 'POST':
         if isinstance(request.form['dice'], str):
-            dice = gra.dices.getDiceByColor(request.form.get('dice', False))
+            dice = gra.dices.get_dice_by_color(request.form.get('dice', False))
             gra.moveSnail(dice.color, dice.value)
 
     return render_template('game.html', kostki=kostki, gra=gra)
@@ -121,10 +121,10 @@ def online():
     if me == game.currentPlayer.name:
         if request.method == 'POST':
             if isinstance(request.form['dice'], str):
-                dice = game.dices.getDiceByColor(request.form.get('dice', False))
+                dice = game.dices.get_dice_by_color(request.form.get('dice', False))
                 game.moveSnail(dice.color, dice.value)
 
-    return render_template('game.html', kostki=kostki, gra=game)
+    return render_template('game.html', kostki=kostki, gra=game, player_name=me)
 
 if __name__ == '__main__':
     app.run(debug=True)

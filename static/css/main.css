@@ -121,7 +121,14 @@ h1 {
     width: 400px;
     display: block;
 }
-svg {
+
+.penguin-card {
+    width: 70px;
+    height: 70px;
+    margin: 8px;
+}
+
+.penguin-board {
     width: 90px;
     height: 90px;
     padding: -10px;
@@ -134,9 +141,6 @@ svg {
 /*}*/
 
 .tux {
-    /*-webkit-box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);*/
-    /*-moz-box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);*/
-    /*box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);*/
     fill: var(--main-color);
 }
 
@@ -150,6 +154,6 @@ svg {
 }
 
 .snail-card {
-    width: 250px;
-    height: 350px;
+    width: 200px;
+    height: 290px;
 }

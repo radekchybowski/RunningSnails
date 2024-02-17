@@ -2,7 +2,7 @@ import random
 
 from classes.Dices import Dices
 from classes.Player import Player
-from classes.Snail import Snail
+from classes.Penguin import Penguin
 
 
 class Game:
@@ -21,7 +21,7 @@ class Game:
             if i == 1:
                 self.board[i - 1]['type'] = 'start'
                 for color in self.colors:
-                    self.board[i - 1]['snails'].append(Snail(color))
+                    self.board[i - 1]['snails'].append(Penguin(color))
             if i == 7 or i == 11:
                 self.board[i - 1]['type'] = 'grzyb'
             if i == 19:
@@ -35,7 +35,7 @@ class Game:
                     if position == 'snail':
                         position = 2
                     else:
-                        self.dices.removeDice(color)
+                        self.dices.remove_dice(color)
 
                     x = i + position
 
@@ -46,12 +46,12 @@ class Game:
                         x = 0
 
                     if (len(self.board[x]['snails']) != 0) and self.board[x]['type'] != 'grzyb':
-                        self.currentPlayer.addPoints(len(self.board[x]['snails']))
+                        self.currentPlayer.add_points(len(self.board[x]['snails']))
                         self.board[x - 1]['snails'] += self.board[x]['snails']
                         self.board[x]['snails'] = []
 
                     if self.board[x]['type'] == 'grzyb':
-                        self.currentPlayer.addPoints(1)
+                        self.currentPlayer.add_points(1)
 
                     self.board[x]['snails'].append(snail)
                     self.board[i]['snails'].remove(snail)
@@ -59,7 +59,7 @@ class Game:
                     if x == 18:
                         self.endgame()
 
-                    self.dices.throwDices()
+                    self.dices.throw_dices()
                     self.nextPlayer()
 
                     return
@@ -79,15 +79,15 @@ class Game:
         for snail in first:
             for player in self.players:
                 if snail.color in player.snails:
-                    player.addPoints(5)
+                    player.add_points(5)
         for snail in second:
             for player in self.players:
                 if snail.color in player.snails:
-                    player.addPoints(2)
+                    player.add_points(2)
         for snail in last:
             for player in self.players:
                 if snail.color in player.snails:
-                    player.addPoints(3)
+                    player.add_points(3)
 
         # calculating winner
         score = (max([x.points for x in self.players]))

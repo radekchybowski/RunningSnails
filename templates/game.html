@@ -17,7 +17,7 @@
         {% for pole in gra.board %}
             <div class="d-flex board-field bg-image{% if pole.type == "grzyb" %} mushroom {% endif %}">
                 {% for snail in pole.snails %}
-                    <svg class="{{ snail.color }}" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1479.016 1704.066" enable-background="new 0 0 1479.016 1704.066" xml:space="preserve">
+                    <svg class="penguin-board {{ snail.color }}" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1479.016 1704.066" enable-background="new 0 0 1479.016 1704.066" xml:space="preserve">
                         <g>
                             <path class="tux" fill="#1F1A17" stroke="#1F1A17" d="M622.589,70.475C678.866,51.909,739.644,47.31,798.113,56.91
                                 c50.685,8.248,99.561,27.319,142.504,55.479c38.326,25.041,71.986,57.203,98.757,94.347c29.463,40.75,50.545,87.555,61.345,136.681
@@ -160,7 +160,7 @@
         <div class="col-12 my-3">
             <h3>Wybierz, kostkę którą chcesz zagrać</h3>
             <form action="{{ url_for(request.endpoint) }}" method="post">
-            {% for kostka in kostki.currentDices %}
+            {% for kostka in kostki.current_dices %}
                 <button type="submit" name="dice" value="{{ kostka.color }}" class="dice {{ kostka.color }}">
                     {% if kostka.value == "snail" %}
                         <img class="m-0" src="{{ url_for('static', filename='img/tux.svg') }}" alt="tux" style="width: 80px; height: 70px;">
@@ -179,5 +179,19 @@
                 </div>
             {% endfor %}
         </div>
+        {% if url_for(request.endpoint) == '/online' %}
+        <div class="col-12 points my-2">
+            <h5>Kolory Twoich pingwinów</h5>
+            {% for player in gra.players %}
+                {% if player_name == player.name %}
+                    {% for snail in player.snails %}
+                        <div class="points-div btn btn-dark disabled p-2">
+                            {{ snail }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

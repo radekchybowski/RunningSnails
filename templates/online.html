@@ -176,5 +176,13 @@
                 </div>
             {% endfor %}
         </div>
+        <div class="col-12 points">
+            <h4>Kolory Twoich pingwinów</h4>
+            {% for player in gra.players %}
+                <div class="points-div btn btn-light p-3">
+                    <b>{{ player.name }}: </b>{{ player.points }} pkt
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

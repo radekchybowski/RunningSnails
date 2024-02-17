@@ -7,6 +7,6 @@ class Player:
     def __repr__(self):
         return self.name
 
-    def addPoints(self, points):
+    def add_points(self, points):
         self.points += points
 
