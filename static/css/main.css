@@ -74,9 +74,9 @@ h1 {
 }
 
 .board {
-    display: inline-block;
-    padding: 10px 25px;
-    width: 937px;
+    /*display: inline-block;*/
+    /*padding: 10px 25px;*/
+    /*width: 937px;*/
     background-color: #464343;
     border-radius: 30px;
     -webkit-box-shadow: 2px 7px 35px -1px rgba(66, 68, 90, 1);
