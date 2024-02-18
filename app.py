@@ -49,18 +49,16 @@ def snailCards():
 @app.route('/hotseat', methods=['POST', 'GET'])
 def hotseat():
     if check() or session['key'] not in games: return redirect('/')
-    gra = games[session['key']]
-    kostki = gra.dices
-    if gra.winner:
-        print(gra.winner)
-        return render_template('endgame.html', gra=gra)
+    game = games[session['key']]
+    kostki = game.dices
 
     if request.method == 'POST':
         if isinstance(request.form['dice'], str):
-            dice = gra.dices.get_dice_by_color(request.form.get('dice', False))
-            gra.moveSnail(dice.color, dice.value)
+            dice = game.dices.get_dice_by_color(request.form.get('dice', False))
+            if game.moveSnail(dice.color, dice.value):
+                return render_template('endgame.html', gra=game)
 
-    return render_template('game.html', kostki=kostki, gra=gra)
+    return render_template('game.html', kostki=kostki, gra=game)
 
 @app.route('/new_online', methods=['POST', 'GET'])
 def new_online():
@@ -71,6 +69,9 @@ def new_online():
         name = request.form.get('player-name', False)
         if name is None or name == "":
             flash('Wpisz proszę swoje imię.')
+            return render_template('new_online.html')
+        if ',' in name:
+            flash('Nie używaj przecinków!')
             return render_template('new_online.html')
         name = name.strip()
         session['player'] = name
@@ -118,16 +119,28 @@ def online():
     game = games[session['online_game']]
     me = session['player']
     kostki = game.dices
-    if game.winner:
-        return render_template('endgame.html', gra=game)
 
     if me == game.currentPlayer.name:
         if request.method == 'POST':
             if isinstance(request.form['dice'], str):
                 dice = game.dices.get_dice_by_color(request.form.get('dice', False))
-                game.moveSnail(dice.color, dice.value)
+                if game.moveSnail(dice.color, dice.value):
+                    return render_template('endgame.html', gra=game)
 
     return render_template('game.html', kostki=kostki, gra=game, player_name=me)
+
+
+@app.route('/clear')
+def clear():
+    if check():
+        return redirect('/')
+    if session['online_game'] in games:
+        games.pop(session['online_game'])
+    if session['key'] in games:
+        games.pop(session['key'])
+
+    return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run(port=12127, debug=True)

@@ -58,11 +58,12 @@ class Game:
 
                     if x == 18:
                         self.endgame()
+                        return True
 
                     self.dices.throw_dices()
                     self.nextPlayer()
 
-                    return
+                    return False
 
     def endgame(self):
         # adding points for players snails
