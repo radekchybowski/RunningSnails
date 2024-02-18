@@ -86,6 +86,9 @@ def new_online():
             if name in games[session['online_game']]:
                 flash('Ta nazwa jest już zajęta przez innego gracza w tym pokoju, wybierz inną.')
                 return render_template('new_online.html')
+            if len(games[session['online_game']]) == 5:
+                flash('Pokój pełny, wybierz inny pokój.')
+                return render_template('new_online.html')
             games[session['online_game']].append(name)
         return redirect('lobby')
 
@@ -127,4 +130,4 @@ def online():
     return render_template('game.html', kostki=kostki, gra=game, player_name=me)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=12127, debug=True)
+    app.run(port=12127, debug=True)
