@@ -1,3 +1,4 @@
+import copy
 import random
 
 from classes.Dices import Dices
@@ -50,7 +51,7 @@ class Game:
                         self.board[x - 1]['snails'] += self.board[x]['snails']
                         self.board[x]['snails'] = []
 
-                    if self.board[x]['type'] == 'grzyb':
+                    if self.board[x]['type'] == 'grzyb' or self.board[x]['type'] == 'meta':
                         self.currentPlayer.add_points(1)
 
                     self.board[x]['snails'].append(snail)
@@ -103,3 +104,16 @@ class Game:
 
     def nextPlayer(self):
         self.currentPlayer = self.players[self.players.index(self.currentPlayer) - 1]
+
+    def cpu_next_move(self, player=Player('CPU')):
+
+        dices_weights = []
+
+        for dice in self.dices:
+            game = copy.deepcopy(self)
+            game.moveSnail(dice.color, dice.value)
+            player = [x for x in game.players if x.name == player.name]
+            dices_weights.append(player[0].points)
+
+        print(dices_weights)
+

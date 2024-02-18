@@ -124,14 +124,8 @@ h1 {
 }
 
 .card {
-    width: 400px;
+    /*width: 400px;*/
     padding: 20px;
-}
-
-.btn-rules {
-    margin: 20px;
-    width: 400px;
-    display: block;
 }
 
 .penguin-card {
