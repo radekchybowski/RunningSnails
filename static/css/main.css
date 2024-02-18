@@ -163,3 +163,39 @@ h1 {
     width: 200px;
     height: 290px;
 }
+
+@media screen and (max-width: 992px) {
+    .board {
+        width: 808px;
+    }
+}
+
+@media screen and (max-width: 830px) {
+    .board {
+        width: 677px;
+    }
+}
+
+@media screen and (max-width: 710px) {
+    .board {
+        width: 547px;
+    }
+}
+
+@media screen and (max-width: 590px) {
+    .board {
+        width: 417px;
+    }
+}
+
+@media screen and (max-width: 590px) {
+    .board {
+        width: 417px;
+    }
+}
+
+@media screen and (max-width: 446px) {
+    .board {
+        width: 287px;
+    }
+}
