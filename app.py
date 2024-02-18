@@ -143,4 +143,4 @@ def clear():
 
 
 if __name__ == '__main__':
-    app.run(port=12127, debug=True)
+    app.run(host="0.0.0.0", port=12127, debug=True)
