@@ -91,11 +91,8 @@ class Game:
                     player.add_points(3)
 
         # calculating winner
-        score = (max([x.points for x in self.players]))
-        for player in self.players:
-            if player.points == score:
-                self.winner = player.name
-                print(self.winner)
+        winning_players = sorted(self.players, key=lambda player: player.points, reverse=True)
+        self.winner = [x for x in winning_players if x.points == winning_players[0].points]
 
         return
 

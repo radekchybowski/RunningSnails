@@ -5,7 +5,7 @@
 {% block body %}
     <div class="row">
         <div class="col-12 my-3">
-            <h2>Gra wygrana przez gracza: {{ gra.winner }}</h2>
+            <h2>Gra wygrana przez: {{ gra.winner | join(', ') }}</h2>
         </div>
     </div>
     <div class="board">
