@@ -105,7 +105,7 @@ class Game:
     def nextPlayer(self):
         self.currentPlayer = self.players[self.players.index(self.currentPlayer) - 1]
 
-    def cpu_next_move(self, player=Player('CPU', ['',''])):
+    def cpu_next_move(self, player=Player('CPU')):
 
         dices_weights = []
 
