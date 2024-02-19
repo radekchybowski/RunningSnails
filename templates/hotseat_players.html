@@ -15,6 +15,11 @@
                         <input type="text" class="form-control my-2" id="players" name="players" aria-describedby="emailHelp" placeholder="Radek, Ania...">
                         <small id="emailHelp" class="form-text text-muted">Możesz wpisać maksymalnie 5 graczy.</small>
                     </div>
+                    <div class="form-group">
+                        <label for="cpu-players">Liczba graczy CPU</label>
+                        <input type="range" class="form-control-range mx-2" id="cpu-players" name="cpu-players" min="0" max="4" step="1" value="0" oninput="this.nextElementSibling.value = this.value">
+                        <output>0</output>
+                    </div>
                     <button class="btn btn-lg btn-success m-2" type="submit" name="submit_button" value="online">Dodaj graczy</button>
                 </div>
             </form>

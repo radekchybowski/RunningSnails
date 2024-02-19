@@ -1,3 +1,5 @@
+import time
+
 from flask import Flask, render_template, request, redirect, session, flash, url_for
 import random, copy, itertools, uuid
 
@@ -26,18 +28,27 @@ def index():
 @app.route('/hotseat_players', methods=['POST', 'GET'])
 def hotseatPlayers():
     if check(): return redirect('/')
+    cpu_names = ['Gnome', 'Linus', 'Bash', 'Tux']
     if request.method == 'POST':
         game = games[session['key']] = Game()
         names = request.form['players'].split(',')
+        cpu = request.form['cpu-players']
+        if cpu != 0:
+            for i in range(int(cpu)):
+                names.append('cpu')
         if len(names) > 5 or len(names[0]) == 0:
             flash('Liczba graczy musi mieścić się w zakresie 1-5!', 'warning')
             return redirect(url_for('hotseatPlayers'))
         for name in names:
-            game.addPlayer(name.strip())
+            if name == 'cpu':
+                game.addPlayer(cpu_names.pop(), cpu=True)
+            else:
+                game.addPlayer(name.strip())
 
         return redirect('/snails_cards')
 
     return render_template('hotseat_players.html')
+
 
 @app.route('/snails_cards')
 def snailCards():
@@ -49,16 +60,21 @@ def snailCards():
 @app.route('/hotseat', methods=['POST', 'GET'])
 def hotseat():
     if check() or session['key'] not in games: return redirect('/')
+    flag = False
     game = games[session['key']]
     kostki = game.dices
-
+    if game.currentPlayer.cpu == True:
+        game.moveSnail(game.cpu_next_move())
+        flag = True
+        return render_template('game.html', kostki=kostki, gra=game)
     if request.method == 'POST':
         if isinstance(request.form['dice'], str):
             dice = game.dices.get_dice_by_color(request.form.get('dice', False))
-            if game.moveSnail(dice.color, dice.value):
+            if game.moveSnail(dice):
                 return render_template('endgame.html', gra=game)
 
-    return render_template('game.html', kostki=kostki, gra=game)
+    return render_template('game.html', kostki=kostki, gra=game, cpu=flag)
+
 
 @app.route('/new_online', methods=['POST', 'GET'])
 def new_online():
@@ -95,6 +111,7 @@ def new_online():
 
     return render_template('new_online.html')
 
+
 @app.route('/lobby', methods=['POST', 'GET'])
 def lobby():
     players = games[session['online_game']]
@@ -102,6 +119,7 @@ def lobby():
         return redirect(url_for('online'))
     game_code = session['online_game']
     return render_template('lobby.html', players=players, game_code=game_code)
+
 
 @app.route('/start_online')
 def start_online():
@@ -112,6 +130,7 @@ def start_online():
             game.addPlayer(player)
 
     return redirect('online')
+
 
 @app.route('/online', methods=['POST', 'GET'])
 def online():

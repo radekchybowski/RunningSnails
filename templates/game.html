@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block head %}
-    {% if url_for(request.endpoint) == '/online' %}
+    {% if url_for(request.endpoint) == '/online' or gra.currentPlayer.cpu == True %}
         <meta http-equiv="refresh" content="3">
     {% endif %}
     <title>Pędzące Ślimaki - gra</title>
