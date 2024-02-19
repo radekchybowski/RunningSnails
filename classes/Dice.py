@@ -4,6 +4,7 @@ import random
 class Dice:
     color = None
     value = None
+    weight = None
     fields = 'snail', 1, 2, 3, 4, 5
 
     def __init__(self, color):

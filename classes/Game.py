@@ -28,7 +28,9 @@ class Game:
             if i == 19:
                 self.board[i - 1]['type'] = 'meta'
 
-    def moveSnail(self, color, position):
+    def moveSnail(self, dice):
+        color = dice.color
+        position = dice.value
         for i, field in enumerate(self.board):
             for snail in field['snails']:
                 if snail.color == color:
@@ -99,21 +101,23 @@ class Game:
 
     def addPlayer(self, name, cpu=False):
         snails = self.pairs.pop(random.randint(0, len(self.pairs)-1))
-        self.players.append(Player(name, snails))
+        self.players.append(Player(name, snails, cpu))
         self.currentPlayer = self.players[0]
 
     def nextPlayer(self):
         self.currentPlayer = self.players[self.players.index(self.currentPlayer) - 1]
+        return self.currentPlayer
 
-    def cpu_next_move(self, player=Player('CPU', ['',''])):
+    def cpu_next_move(self):
 
         dices_weights = []
-
-        for dice in self.dices:
+        for dice in self.dices.current_dices:
             game = copy.deepcopy(self)
-            game.moveSnail(dice.color, dice.value)
-            player = [x for x in game.players if x.name == player.name]
-            dices_weights.append(player[0].points)
+            player = game.currentPlayer
+            game.moveSnail(dice)
+            dice.weight = player.points
+            dices_weights.append(dice)
 
-        print(dices_weights)
+        return sorted(dices_weights, key=lambda dice: dice.weight, reverse=True)[0]
+
 
